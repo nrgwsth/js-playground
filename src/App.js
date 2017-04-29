@@ -40,11 +40,13 @@ class App extends Component {
     this.prevClick = this.prevClick.bind(this);
     this.nextClick = this.nextClick.bind(this);
     this.runClick = this.runClick.bind(this);
+    this.onChange = this.onChange.bind(this);
 
     this.state = {
       codeSamples: [],
       index: 0,
-      currentCodeSample: "",
+      inputValue: "",
+      editing: false,
       styles:{
         textareaBackgroundColor: "#979A9A",
         textareaColor: "#F0F3F4"
@@ -75,7 +77,7 @@ class App extends Component {
       var result = document.getElementById("result");
       var type = condition ? "PASS" : "FAIL";
 
-      var htmlRaw = "<div style='margin: 10px 0;font-size: 18px;'><span style='color: red; font-size: 20px; padding: 0 10px;'>"+type+"</span><span>"+message+"</span></div>";
+      var htmlRaw = "<div style='margin: 10px 0;font-size: 18px; font-weight: bold;'><span style='color: red; font-size: 20px; padding: 0 10px;'>"+type+"</span><span>"+message+"</span></div>";
 
       result.insertAdjacentHTML("beforeend", htmlRaw);
     }
@@ -84,12 +86,20 @@ class App extends Component {
   currentCodeSample(){
     const {state} = this;
     console.log(state);
-    return js_beautify(state.codeSamples[state.index].codeString);
+
+    return state.editing ? state.inputValue : js_beautify(state.codeSamples[state.index].codeString);
+    
   }
 
   prevClick(){
     this.setState({
-      index: this.state.index - 1 >=0 ? this.state.index - 1 : 0
+      editing: false,
+      index: this.state.index - 1 >=0 ? this.state.index - 1 : 0,
+      styles:{
+        ...this.state.styles,
+        textareaBackgroundColor: "#979A9A",
+        textareaColor: "#F0F3F4"
+      }
     })
 
     document.getElementById("result").innerHTML = "";
@@ -98,22 +108,35 @@ class App extends Component {
 
   nextClick(){
     this.setState({
-      index: this.state.index >= this.state.codeSamples.length-1? this.state.codeSamples.length-1 : this.state.index + 1
+      editing: false,
+      index: this.state.index >= this.state.codeSamples.length-1? this.state.codeSamples.length-1 : this.state.index + 1,
+      styles:{
+        ...this.state.styles,
+        textareaBackgroundColor: "#979A9A",
+        textareaColor: "#F0F3F4"
+      }
     })
 
     document.getElementById("result").innerHTML = "";
-    console.log("result", document.getElementById("result"))
 
   }
 
   onDoubleClick(){
     this.setState({
-      ...this.state,
+      editing: true,
+      inputValue: js_beautify(this.state.codeSamples[this.state.index].codeString),
       styles:{
         ...this.state.styles,
         textareaBackgroundColor: "#F7F9F9",
         textareaColor: "#95A5A6"
       }
+    })
+  }
+
+
+  onChange(e){
+    this.setState({
+      inputValue: e.target.value
     })
   }
 
@@ -140,6 +163,7 @@ class App extends Component {
             }}
             value = {this.currentCodeSample()}
             onDoubleClick = {this.onDoubleClick}
+            onChange = {this.onChange}
           >
           </textarea>
         </div>
