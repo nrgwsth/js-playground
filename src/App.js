@@ -12,7 +12,11 @@ const styles = StyleSheet.create({
     overflowY: "scroll",
     backgroundColor: "",
     color: "",
-    fontSize: "20px"
+    fontSize: "20px",
+    border: "1px solid #555",
+    ":focus":{
+      outline: "none"
+    }
   },
 
   result:{
@@ -31,6 +35,11 @@ const styles = StyleSheet.create({
   }
 })
 
+const COLOR = {
+  NORMAL: "#AED6F1",
+  EDITOR: "#F4F6F7"
+}
+
 class App extends Component {
 
   constructor(props){
@@ -48,8 +57,7 @@ class App extends Component {
       inputValue: "",
       editing: false,
       styles:{
-        textareaBackgroundColor: "#979A9A",
-        textareaColor: "#F0F3F4"
+        textareaBackgroundColor: COLOR.NORMAL
       }
     }
 
@@ -72,6 +80,7 @@ class App extends Component {
       codeSamples: codeSamples
     });
 
+    window.hljs.configure({useBR: true});
     window.assert = function(condition, message){
 
       var result = document.getElementById("result");
@@ -97,8 +106,7 @@ class App extends Component {
       index: this.state.index - 1 >=0 ? this.state.index - 1 : 0,
       styles:{
         ...this.state.styles,
-        textareaBackgroundColor: "#979A9A",
-        textareaColor: "#F0F3F4"
+        textareaBackgroundColor: COLOR.NORMAL
       }
     })
 
@@ -112,13 +120,17 @@ class App extends Component {
       index: this.state.index >= this.state.codeSamples.length-1? this.state.codeSamples.length-1 : this.state.index + 1,
       styles:{
         ...this.state.styles,
-        textareaBackgroundColor: "#979A9A",
-        textareaColor: "#F0F3F4"
+        textareaBackgroundColor: COLOR.NORMAL
       }
     })
 
     document.getElementById("result").innerHTML = "";
 
+  }
+
+  runClick(){
+    document.getElementById("result").innerHTML = "";
+    eval(this.currentCodeSample());
   }
 
   onDoubleClick(){
@@ -127,8 +139,7 @@ class App extends Component {
       inputValue: js_beautify(this.state.codeSamples[this.state.index].codeString),
       styles:{
         ...this.state.styles,
-        textareaBackgroundColor: "#F7F9F9",
-        textareaColor: "#95A5A6"
+        textareaBackgroundColor: COLOR.EDITOR
       }
     })
   }
@@ -138,10 +149,6 @@ class App extends Component {
     this.setState({
       inputValue: e.target.value
     })
-  }
-
-  runClick(){
-    eval(this.currentCodeSample());
   }
 
   render() {
@@ -155,17 +162,29 @@ class App extends Component {
             <button onClick={this.nextClick}>Next</button>
             <button onClick={this.runClick}>Run</button>
           </div>
-          <textarea
+          {this.state.editing &&
+            <textarea
             className={css(styles.editor)}
             style={{
-              backgroundColor: this.state.styles.textareaBackgroundColor,
-              color: this.state.styles.textareaColor
+              backgroundColor: this.state.styles.textareaBackgroundColor
             }}
             value = {this.currentCodeSample()}
             onDoubleClick = {this.onDoubleClick}
             onChange = {this.onChange}
           >
-          </textarea>
+          </textarea>}
+
+          {!this.state.editing &&
+            <pre
+              className={css(styles.editor)}
+            style={{
+              backgroundColor: this.state.styles.textareaBackgroundColor
+            }}
+              onDoubleClick = {this.onDoubleClick}
+              onChange = {this.onChange}
+              dangerouslySetInnerHTML = {{__html: hljs.highlight("javascript", this.currentCodeSample()).value}}
+            >
+          </pre>}
         </div>
 
         <div className={css(styles.result)}>
