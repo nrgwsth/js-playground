@@ -10,8 +10,6 @@ const styles = StyleSheet.create({
     minHeight: "250px",
     resize: "none",
     overflowY: "scroll",
-    backgroundColor: "",
-    color: "",
     fontSize: "20px",
     border: "1px solid #555",
     ":focus":{
@@ -20,18 +18,35 @@ const styles = StyleSheet.create({
   },
 
   result:{
-    width: "calc(100% - 10px)",
+    width: "calc(100% - 30px)",
     margin: "5px",
+    padding: "10px",
     minHeight: "250px",
+    fontSize: "14px",
+    fontFamily: "'PT Sans', sans-serif",
     border: "1px solid #444"
   },
+
+  btn:{
+    padding: "5px 10px",
+    margin: "2px",
+    border: "none",
+    backgroundColor: "#888",
+    cursor: "pointer",
+    transition: "background-color 0.5s",
+    ":hover":{
+      backgroundColor: "#bbb"
+    }
+  },
+
 
   buttonWrapper:{
     float: "right"
   },
 
   "smallmargin": {
-    margin: "5px"
+    margin: "5px",
+    fontFamily: "'Merriweather', serif"
   }
 })
 
@@ -156,11 +171,11 @@ class App extends Component {
       <div className="wrapper">
         <div>
           <h2 className={css(styles.smallmargin)}>{this.state.codeSamples[this.state.index].heading}</h2>
-          <span className={css(styles.smallmargin)}>{this.state.codeSamples[this.state.index].subHeading}</span>
+          <small className={css(styles.smallmargin)}>{this.state.codeSamples[this.state.index].subHeading}</small>
           <div className={css(styles.buttonWrapper)}>
-            <button onClick={this.prevClick}>Prev</button>
-            <button onClick={this.nextClick}>Next</button>
-            <button onClick={this.runClick}>Run</button>
+            <button onClick={this.prevClick} className={css(styles.btn)}>Prev</button>
+            <button onClick={this.nextClick} className={css(styles.btn)}>Next</button>
+            <button onClick={this.runClick} className={css(styles.btn)}>Run</button>
           </div>
           {this.state.editing &&
             <textarea
@@ -177,9 +192,9 @@ class App extends Component {
           {!this.state.editing &&
             <pre
               className={css(styles.editor)}
-            style={{
-              backgroundColor: this.state.styles.textareaBackgroundColor
-            }}
+              style={{
+                backgroundColor: this.state.styles.textareaBackgroundColor
+              }}
               onDoubleClick = {this.onDoubleClick}
               onChange = {this.onChange}
               dangerouslySetInnerHTML = {{__html: hljs.highlight("javascript", this.currentCodeSample()).value}}
