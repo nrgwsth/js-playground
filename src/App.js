@@ -36,6 +36,9 @@ const styles = StyleSheet.create({
     transition: "background-color 0.5s",
     ":hover":{
       backgroundColor: "#bbb"
+    },
+    ":focus":{
+      outline: "none"
     }
   },
 
