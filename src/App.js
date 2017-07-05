@@ -92,6 +92,11 @@ class App extends Component {
       heading: "function declaration",
       subHeading: "simple heading",
       explanation: "simple explanation"
+    },{
+      codeString: "var x = 'outer';function test(inner) {if (inner) {var x = 'inner';return x;}return x;}assert(test(false) === undefined, 'it should return undefined as var declaration are hoisted');assert(test(true) === 'inner', 'will get redefined.')",
+      heading: "Hoisting of variable declaration with var",
+      subHeading: "simple heading",
+      explanation: "declaration with var are hoisted, so inner x will move to top of the function body."
     }];
 
     this.setState({
@@ -114,8 +119,8 @@ class App extends Component {
     const {state} = this;
     console.log(state);
 
-    return state.editing ? state.inputValue : js_beautify(state.codeSamples[state.index].codeString);
-    
+    return state.editing ? state.inputValue : window.js_beautify(state.codeSamples[state.index].codeString);
+
   }
 
   prevClick(){
@@ -154,7 +159,7 @@ class App extends Component {
   onDoubleClick(){
     this.setState({
       editing: true,
-      inputValue: js_beautify(this.state.codeSamples[this.state.index].codeString),
+      inputValue: window.js_beautify(this.state.codeSamples[this.state.index].codeString),
       styles:{
         ...this.state.styles,
         textareaBackgroundColor: COLOR.EDITOR
@@ -200,7 +205,7 @@ class App extends Component {
               }}
               onDoubleClick = {this.onDoubleClick}
               onChange = {this.onChange}
-              dangerouslySetInnerHTML = {{__html: hljs.highlight("javascript", this.currentCodeSample()).value}}
+              dangerouslySetInnerHTML = {{__html: window.hljs.highlight("javascript", this.currentCodeSample()).value}}
             >
           </pre>}
         </div>
@@ -212,7 +217,7 @@ class App extends Component {
           <div id="result">
           </div>
         </div>
-      </div>  
+      </div>
     );
   }
 }
