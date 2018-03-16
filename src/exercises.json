@@ -1,8 +1,8 @@
 [{
-      "codeString": "var a = 5;var b = 5;assert(a!==undefined, 'a is not undefined')",
+      "codeString": "assert(a===undefined, 'a is undefined');var a = 5;assert(a!==undefined, 'a is not undefined')",
       "content":{
       	"heading": "variable declaration",
-      	"contentMD": ""
+      	"contentMD": "* variable declaration are hoisted"
   	  }
     },{
       "codeString": "function func1(){};\nvar func2 = function(){};\nwindow.func3 = function(){};\nassert(func1!==undefined, 'func1 exists');\nassert(func2!==undefined, 'func2 exists');\nassert(func3!==undefined, 'func3 exists')",
