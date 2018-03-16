@@ -1,0 +1,101 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono|Ubuntu");
+  
+div{
+  box-sizing: border-box; 
+}
+
+.rootdiv{
+  position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #eee;
+    font-family: 'Roboto', sans-serif;
+}
+
+.headerWrapper{
+    display: flex;
+  justify-content: space-between;
+    height: 70px;
+    text-align: center;
+    /* justify-content: center; */
+    align-items: center;
+    font-size: 30px;
+    padding: 10px;
+}
+
+.leftHeader{
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.editorWraper{
+  height: calc(100% - 70px);
+  min-width: 1000px;
+    display: flex;
+    flex-direction: row;
+  margin: 0 10px;
+}
+.leftEditor{
+  height: 100%;
+    width: 500px;
+    background: #fff;
+}
+
+.rightEditor{
+      height: 100%;
+    width: calc(100% - 300px);
+  border: 1px solid #ccc;
+}
+
+.btn{
+    padding: 5px 10px;
+    margin: 2px;
+    border: none;
+    background-color: #888;
+    cursor: pointer;
+    transition: background-color 0.5s;
+  }
+
+.btn:focus{
+  outline: none;
+}
+
+.btn:hover{
+  background-color: #bbb;
+}
+
+
+.rightEditorBody{
+  resize: none;
+    height: 80%;
+    width: 100%;
+    border: none;
+}
+
+.floatingRunButton{
+        position: absolute;
+    bottom: 20%;
+    right: 0;
+}
+
+#result{
+      height: 20%;
+    background: #fff;
+}
+
+.result-span-message{
+  margin: 10px;
+}
+
+.result-span-pass{
+  text-transform: uppercase;
+    color: green;
+    font-weight: 600;
+}
+
+.result-span-fail{
+  text-transform: uppercase;
+    color: red;
+    font-weight: 600;
+}
