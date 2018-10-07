@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import beautify from "js-beautify/js"
 
-let codeSamples = require("./exercises.json")
+import codeSamples from "./exercises"
 
 class App extends Component {
   constructor(props){
@@ -21,7 +22,6 @@ class App extends Component {
       codeSamples: codeSamples
     });
 
-    window.hljs.configure({useBR: true});
   }
 
   onPrevClick(){
@@ -84,9 +84,9 @@ class RightEditor extends Component{
   constructor(props){
     super(props)
     this.state = {
-      codeString: window.js_beautify(props.data),
       editing: false
     }
+    this.editorRef = React.createRef()
   }
 
   runClick(){
@@ -95,7 +95,9 @@ class RightEditor extends Component{
       const classprefix = condition ? "pass" : "fail"
       document.getElementById("result").innerHTML = html + "<div><span class='result-span-"+classprefix+"'>"+classprefix+"</span><span class='result-span-message'>"+msg+"</span></div>"
     }`
-    var func = new Function(assert + this.state.codeString)
+
+    const editor = this.state.editor
+    var func = new Function(assert + editor.session.getValue())
     try{
       func()
     } catch(e){
@@ -103,40 +105,40 @@ class RightEditor extends Component{
     }
   }
 
-  onChange(e){
-    this.setState({
-      codeString: e.target.value
-    })
+  resetClick(){
+    const editor = this.state.editor
+    editor.session.setValue(beautify(this.props.data, {eol: '\n'}))
   }
 
   componentWillReceiveProps(nextProps){
     if(this.props.data !== nextProps.data){
-      this.setState({
-        codeString: window.js_beautify(nextProps.data),
-        editing: false
-      })
+      const editor = this.state.editor
+      editor.session.setValue(beautify(this.props.data, {eol: '\n'}))
       document.getElementById("result").innerHTML = ""
     }
+  }
+
+  componentDidMount(){
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.session.setMode("ace/mode/javascript")
+    this.setState({
+      editor: editor
+    })
+    editor.session.setValue(beautify(this.props.data, {eol: '\n'}))
   }
 
   render(){
     return(
       <div className = "rightEditor">
-        {!this.state.editing ?
-          <div
-            className = "rightEditorBody"
-            onDoubleClick = {()=>this.setState({editing: true})}
-            dangerouslySetInnerHTML = {{__html: window.hljs.highlight("javascript", this.state.codeString).value}}
-          ></div>
-          :
-          <textarea
-            className = "rightEditorBody"
-            value = {this.state.codeString}
-            onChange = {this.onChange.bind(this)}
-          />
-        }
+        <div
+          id="editor"
+          className = "rightEditorBody"
+          ref = {this.editorRef}
+        ></div>
         <div className = "floatingRunButton">
           <button onClick = {this.runClick.bind(this)}>Run</button>
+          <button onClick = {this.resetClick.bind(this)}>Reset</button>
         </div>
         <div id = "result"></div>
       </div>

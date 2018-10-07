@@ -1,19 +1,19 @@
 [{
-      "codeString": "assert(a===undefined, 'a is undefined');var a = 5;assert(a!==undefined, 'a is not undefined')",
-      "content":{
-      	"heading": "variable declaration",
-      	"contentMD": "* variable declaration are hoisted"
-  	  }
-    },{
-      "codeString": "function func1(){};\nvar func2 = function(){};\nwindow.func3 = function(){};\nassert(func1!==undefined, 'func1 exists');\nassert(func2!==undefined, 'func2 exists');\nassert(func3!==undefined, 'func3 exists')",
-      "content": {
-      	"heading": "function declaration",
-      	"contentMD": "## Different types of function declaration\n\nthree types of function declaration"
-      }
-    },{
-      "codeString": "var x = 'outer';function test(inner) {if (inner) {var x = 'inner';return x;}return x;}assert(test(false) === undefined, 'it should return undefined as var declaration are hoisted');assert(test(true) === 'inner', 'will get redefined.')",
-      "content": {
-      	"heading": "Hoisting of variable declaration with var",
-      	"contentMD": "declaration with var are hoisted, so inner x will move to top of the function body."
-      }
-    }]
+    "codeString": "assert(a===undefined, 'a is undefined');var a = 5;assert(a!==undefined, 'a is not undefined')",
+    "content": {
+        "heading": "Variable Declaration",
+        "contentMD": "* variable declaration are hoisted"
+    }
+}, {
+    "codeString": "function func1(){};var func2 = function(){};window.func3 = function(){};assert(func1!==undefined, 'func1 exists');\nassert(func2!==undefined, 'func2 exists');\nassert(func3!==undefined, 'func3 exists')",
+    "content": {
+        "heading": "Function Declaration",
+        "contentMD": "## Different types of function declaration three types of function declaration"
+    }
+}, {
+    "codeString": "var x = 'outer';function test(inner) {if (inner) {var x = 'inner';return x;}return x;}assert(test(false) === undefined, 'it should return undefined as var declaration are hoisted');assert(test(true) === 'inner', 'will get redefined.')",
+    "content": {
+        "heading": "Hoisting of variable declaration with var",
+        "contentMD": "declaration with var are hoisted, so inner x will move to top of the function body."
+    }
+}]
