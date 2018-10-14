@@ -95,6 +95,7 @@ button{
 }
 
 #result {
+    padding: 5px;
     height: 20%;
     background: #fff;
 }
