@@ -128,12 +128,8 @@ h1, h2, h3, h4{
     margin: 10px 0;
 }
 
-.subSectionBody{
-    padding: 5px 20px;
-}
-
 .subSectionItem{
-    margin: 5px;
+    margin: 5px 0;
     color: #52BE80;
     cursor: pointer;
 }
