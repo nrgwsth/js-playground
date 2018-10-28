@@ -1,1 +1,0 @@
-### Variable declarations with `var` are hoisted

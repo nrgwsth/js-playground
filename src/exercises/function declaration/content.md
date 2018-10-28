@@ -1,1 +1,0 @@
-#### Different types of function declaration three types of function declaration

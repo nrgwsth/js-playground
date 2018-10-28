@@ -1,16 +1,16 @@
 import React, { Component } from 'react'
 
 import Header from "./Header"
-import LeftEditor from "./LeftEditor"
-import RightEditor from "./RightEditor"
+import CodeEditor from "./CodeEditor"
 
-import {readExcercises} from "./utils"
+import {readExcercises, getSectionData} from "./utils"
 
 class App extends Component {
   constructor(props){
     super(props);
     this.onPrevClick = this.onPrevClick.bind(this);
     this.onNextClick = this.onNextClick.bind(this);
+    this.onLinkClick = this.onLinkClick.bind(this);
 
     this.state = {
       index: 0,
@@ -21,9 +21,10 @@ class App extends Component {
   }
 
   componentWillMount(){
-    console.log(readExcercises())
+    const exercises = readExcercises()
     this.setState({
-      codeSamples: readExcercises()
+      codeSamples: readExcercises(),
+      sections: getSectionData(exercises)
     })
   }
 
@@ -41,14 +42,48 @@ class App extends Component {
     })
   }
 
+  onLinkClick(index){
+    this.setState({
+      index: index
+    })
+  }
+
   render() {
     const exercise = this.state.codeSamples[this.state.index]
+    console.log(exercise)
     return (
       <div className = "rootdiv">
         <Header onNextClick = {this.onNextClick} onPrevClick = {this.onPrevClick} />
-        <div className = "editorWraper">
-           <LeftEditor content = {exercise.content} config = {exercise.config} />
-           <RightEditor code = {exercise.code} />
+        <div className = "body">
+          <div className="bodyLeft">
+            <div className="bodyLeftTitle">
+              {exercise.config.title}
+            </div>
+            <div className="bodyLeftBody">
+              {exercise.blocks.map(item=>(
+                item.type === "md" ? 
+                  <div className = "leftEditorBody" dangerouslySetInnerHTML={{__html: marked(item.value)}}></div>
+                  :
+                  <CodeEditor code = {item.value} />
+              ))}
+            </div>
+          </div>
+          <div className="bodyRight">
+              <div className="bodyRightInner">
+                  {Object.keys(this.state.sections).map(key=>(
+                    <div className="sectionBody">
+                      <div className="sectionTitle">
+                        {key}
+                      </div>
+                      <div className="subSectionBody">
+                        {this.state.sections[key].map(item=>(
+                          <div className = "subSectionItem" onClick = {()=>this.onLinkClick(item.index)}>{item.value}</div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+              </div>
+          </div>
         </div>
       </div>
     );
