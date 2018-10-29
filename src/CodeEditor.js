@@ -16,20 +16,17 @@ class RightEditor extends Component{
     this.onClear = this.onClear.bind(this)
   }
 
-  assert(cond, msg){
-    this.setState({
-      results: this.state.results.concat({
-        cond: cond,
-        value: msg
-      })
-    })
-  }
-
   runClick(){
     this.setState({
       results: []
     }, ()=>{
-      window.assert = this.assert.bind(this)
+      const results = []
+      window.assert = function(cond, msg){
+        results.push({
+          cond: cond,
+          value: msg
+        })
+      }
       const editor = this.state.editor
       var func = new Function(editor.session.getValue())
       try{
@@ -37,6 +34,9 @@ class RightEditor extends Component{
       } catch(e){
         console.log(error)
       }
+      this.setState({
+        results: results
+      })
     })
   }
 
@@ -87,8 +87,8 @@ class RightEditor extends Component{
             {this.state.results.length > 0 &&
               <div className="clear"><button onClick = {this.onClear}>Clear</button></div>
             }
-            {this.state.results.map(item=>(
-              <div className="resultIndiv">
+            {this.state.results.map((item, i)=>(
+              <div className="resultIndiv" key = {i}>
                 {item.cond && <span className="result-span-pass">PASS</span>}
                 {!item.cond && <span className="result-span-fail">FAIL</span>}
                 <span className="result-span-message">{item.value}</span>

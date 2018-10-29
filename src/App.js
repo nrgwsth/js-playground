@@ -60,18 +60,18 @@ class App extends Component {
               {exercise.config.title}
             </div>
             <div className="bodyLeftBody">
-              {exercise.blocks.map(item=>(
+              {exercise.blocks.map((item, i)=>(
                 item.type === "md" ? 
-                  <div className = "leftEditorBody" dangerouslySetInnerHTML={{__html: marked(item.value)}}></div>
+                  <div key = {item.value} className = "leftEditorBody" dangerouslySetInnerHTML={{__html: marked(item.value)}}></div>
                   :
-                  <CodeEditor code = {item.value} />
+                  <CodeEditor key = {item.value} code = {item.value} />
               ))}
             </div>
           </div>
           <div className="bodyRight">
               <div className="bodyRightInner">
-                  {Object.keys(this.state.sections).map(key=>(
-                    <div className="sectionBody">
+                  {Object.keys(this.state.sections).map((key, i)=>(
+                    <div className="sectionBody" key = {i}>
                       <div className="sectionTitle">
                         {key}
                       </div>
