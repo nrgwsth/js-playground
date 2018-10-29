@@ -44,7 +44,7 @@ function parseFileContent(content){
 	const match = content.match(MetaAndContentCaptureRegex)
 	const config = parseYAMLMetaInfo(match[1])
 	let contentString = match[2]
-	const CodeBlockString = /```javascript([^`][^`][^`]*)```/
+	const CodeBlockString = /```js([^`][^`][^`]*)```/
 	const blocks = []
 	for(let match = contentString.match(CodeBlockString); match != null; match = contentString.match(CodeBlockString)){
 		const stringBlock = contentString.slice(0, match.index)

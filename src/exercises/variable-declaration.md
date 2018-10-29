@@ -15,14 +15,14 @@ assert(a !== undefined, "A is not undefined")
 
 As `a` is hoised, it will be defined even before it's declared.
 
-```javascript
+```js
 assert(a === undefined, "a is not undefined")
 var a;
 ```
 
 Variables with `let` and `const` are not hoisted.
 
-```javascript
+```js
 try{
     console.log(a)
 } catch(e){
