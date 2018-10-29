@@ -56,10 +56,12 @@ button.secondary{
     margin: 0 10px;
     background: #fff;
     padding: 10px;
+    justify-content: space-around;
 }
 
 .bodyLeft{
     width: 70%;
+    max-width: 800px;
 }
 
 .bodyRight{
@@ -114,9 +116,7 @@ button.secondary{
 h1, h2, h3, h4{
     color: #A9DFBF;
 }
-.bodyLeft{
-    margin-left: 25px;
-}
+
 .bodyRightInner{
     padding: 15px;
     display: flex;
