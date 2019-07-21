@@ -24,3 +24,15 @@ c.length = 0
 assert(d.length === 0, "Old array is affected")
 
 ```
+
+Simple function to output 0 or 1 randomly.
+```js
+function returnZeroorOneRandomly() {
+  return Math.round(Math.random());
+}
+
+for (let i=0;i<10;i++) {
+  let a = returnZeroorOneRandomly()
+  assert(a === 0 || a === 1, `Value of a is ${a}`)
+}
+```
